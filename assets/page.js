@@ -13,7 +13,7 @@ var prizeBuckets = [
 		'desc': "Big petrified rocks", 
 		'class': "utterly-insane",
 		'n': 26, 
-		'color': '#3D5BA6'
+		'color': '#3D5BA6'	
 	}, 
 	{
 		'desc': "Cigar badge + medium petrified rock", 
