@@ -456,6 +456,12 @@ a:hover {
   white-space: pre-wrap;
 }
 
+#intro {
+  font-size: 20px;
+  margin: 20px 200px;
+  line-height: 1.6em;
+}
+
 svg {
   font-size: 10px;
 }
@@ -478,4 +484,13 @@ svg {
 
 .pie text.label {
   fill: rgba(0, 0, 0, 0.4);
+}
+
+.pie text.title {
+  font-size: 12px;
+  fill: #444;
+}
+
+.pie text {
+  text-anchor: middle;
 }

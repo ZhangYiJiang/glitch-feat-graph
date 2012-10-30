@@ -23,14 +23,14 @@ var prizeBuckets = [
 		'class': "very-insane", 
 		'n': 179, 
 		'color': '#D92A7A', 
-		'title': '27-205'
+		'title': '27th-205th'
 	}, 
 	{
 		'desc': "Small petrified rocks", 
 		'class': "insane", 
 		'n': 804, 
 		'color': '#EC4B33', 
-		'title': '205-1009'
+		'title': '205th-1009th'
 	}
 ];
 
@@ -189,7 +189,7 @@ function drawDonut (data, metadata) {
 		
 	var arc = d3.svg.arc()
 		.outerRadius(radius)
-		.innerRadius(radius - 65);
+		.innerRadius(radius - 50);
 
 	// Process data 
 	prizeBuckets.forEach(function(p){
@@ -209,7 +209,7 @@ function drawDonut (data, metadata) {
 	values.push({
 		data: leftover, 
 		color: '#333', 
-		title: 'Others'
+		title: 'All Others'
 	});
 
 	var pie = d3.layout.pie()
@@ -237,10 +237,30 @@ function drawDonut (data, metadata) {
 
 	g.append("text")
 		.attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
-		.attr("dy", ".35em")
+		.attr("dy", "-.6em")
 		.attr('class', 'label')
-		.style("text-anchor", "middle")
 		.text(function(d) { return d.data.title; });
+
+	g.append("text")
+		.attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
+		.attr("dy", ".6em")
+		.attr('class', 'label')
+		.text(function(d) { return formatPercent(d.data.data / metadata.total); });
+
+	// Add center label
+	vis.append('text')
+		.attr('class', 'title')
+		.attr("dy", "-1.2em")
+		.text('Contribution');
+
+	vis.append('text')
+		.attr('class', 'title')
+		.text('Breakdown');
+
+	vis.append('text')
+		.attr('class', 'title')
+		.attr("dy", "1.2em")
+		.text('by Category');
 }
 
 d3.selection.prototype.translate = function (x, y) {
@@ -252,7 +272,7 @@ d3.selection.prototype.translate = function (x, y) {
 
 
 $('#feats li').click(function(){
-	$('#data').fadeOut();
+	$('#data, #intro').fadeOut();
 	loadData(this.id);
 });
 
@@ -262,3 +282,4 @@ function formatNumber (n) {
 	return (Math.round(n / 100000) / 10) + 'm';
 }
 
+var formatPercent = d3.format('.1p');
