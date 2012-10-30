@@ -475,3 +475,7 @@ svg {
 .axis text {
   fill: #777;
 }
+
+.pie text.label {
+  fill: rgba(0, 0, 0, 0.4);
+}

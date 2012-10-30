@@ -8,30 +8,29 @@ var svg = d3.select('#histogram').append("svg")
 	.append("g")
 		.attr("transform", "translate(" + m.left + "," + m.top + ")");
 
+
+
 var prizeBuckets = [
 	{
 		'desc': "Big petrified rocks", 
 		'class': "utterly-insane",
 		'n': 26, 
-		'color': '#3D5BA6'	
-	}, 
-	{
-		'desc': "Cigar badge + medium petrified rock", 
-		'class': "very-insane",
-		'n': 3, 
-		'color': '#6B519C'
+		'color': '#3D5BA6', 
+		'title': 'Top 26'
 	}, 
 	{
 		'desc': "Medium petrified rocks", 
-		'class': "slightly-less-than-very-insane", 
+		'class': "very-insane", 
 		'n': 179, 
-		'color': '#D92A7A'
+		'color': '#D92A7A', 
+		'title': '27-205'
 	}, 
 	{
 		'desc': "Small petrified rocks", 
 		'class': "insane", 
-		'n': 1000, 
-		'color': '#EC4B33'
+		'n': 804, 
+		'color': '#EC4B33', 
+		'title': '205-1009'
 	}
 ];
 
@@ -41,6 +40,7 @@ function updateView (data, metadata) {
 
 	renderPage(metadata);
 	renderGraph (data, metadata);
+	drawDonut(data, metadata);
 
 	$('#data').fadeIn();
 }
@@ -69,6 +69,7 @@ function loadData (id) {
 		complete();
 	});
 
+	// Make sure both metadata and data are loaded before we continue 
 	function complete () {
 		ready++;
 
@@ -88,6 +89,10 @@ function renderGraph (data, metadata) {
 	// Remove the old visualization 
 	svg.select('.vis').remove();
 
+	// And create the new one 
+	vis = svg.append('g')
+		.attr('class', 'vis');
+
 	// Split up the data according to the prizes which players recieve 
 	prizeBuckets.forEach(function(p, i){
 		dataBuckets.push({
@@ -98,10 +103,6 @@ function renderGraph (data, metadata) {
 
 		cumilative += p.n;
 	});
-
-	// And create the new one 
-	vis = svg.append('g')
-		.attr('class', 'vis');
 
 	// Create the scales for x (player count) and y (contribution) axis
 	// The y axis is logarithmic to help fit the visualization in 
@@ -173,11 +174,79 @@ function renderGraph (data, metadata) {
 		.text(metadata.unit);
 }
 
-function drawDonut (data) {
+function drawDonut (data, metadata) {
+	var cumilative = 0, values = [], leftover = metadata.total;
 
+	var size = { width: 200, height: 200}, 
+		radius = Math.min(size.width, size.height) / 2 ,
+		offset = { x: 600, y: radius + 4 };
+
+	// Select the g.vis element we're going to be adding the donut to 
+	var vis = svg.select('.vis')
+			.append('g')
+			.attr('class', 'pie')
+			.translate(offset.x, offset.y);
+		
+	var arc = d3.svg.arc()
+		.outerRadius(radius)
+		.innerRadius(radius - 65);
+
+	// Process data 
+	prizeBuckets.forEach(function(p){
+		var slice = d3.sum(data.slice(cumilative, cumilative + p.n));
+
+		values.push({
+			data: slice, 
+			color: p.color,
+			title: p.title
+		});
+
+		cumilative += p.n; 
+		leftover -= slice;
+	}); 
+
+	// We also include the rest of the players in the chart 
+	values.push({
+		data: leftover, 
+		color: '#333', 
+		title: 'Others'
+	});
+
+	var pie = d3.layout.pie()
+		.sort(null)
+		.value(function(d) { return d.data; });
+
+	var g = vis.selectAll(".arc")
+		.data(pie(values))
+		.enter()
+			.append("g")
+			.attr("class", "arc");
+
+	g.append("path")
+		.attr("d", arc)
+		.style("stroke-width", 2)
+		.style("stroke", function(d) { 
+			return d.data.color; 
+		});
+
+	g.append("path")
+		.attr("d", arc)
+		.style("fill", function(d) { 
+			return d3.lab(d.data.color).brighter(2.5); 
+		});
+
+	g.append("text")
+		.attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
+		.attr("dy", ".35em")
+		.attr('class', 'label')
+		.style("text-anchor", "middle")
+		.text(function(d) { return d.data.title; });
 }
 
 d3.selection.prototype.translate = function (x, y) {
+	if (arguments.length === 1)
+		return this.attr("transform", "translate(" + x + ")");
+
 	return this.attr("transform", "translate(" + x + "," + y + ")");
 };
 
@@ -187,8 +256,7 @@ $('#feats li').click(function(){
 	loadData(this.id);
 });
 
-function formatNumber (n) {
-	var postfix; 
+function formatNumber (n) { 
 	if (n < 1000) return n;
 	if (n < 1000000) return (Math.round(n / 100) / 10) + 'k';
 	return (Math.round(n / 100000) / 10) + 'm';
