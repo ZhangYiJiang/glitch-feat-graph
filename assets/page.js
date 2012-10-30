@@ -8,8 +8,6 @@ var svg = d3.select('#histogram').append("svg")
 	.append("g")
 		.attr("transform", "translate(" + m.left + "," + m.top + ")");
 
-
-
 var prizeBuckets = [
 	{
 		'desc': "Big petrified rocks", 
@@ -179,7 +177,7 @@ function drawDonut (data, metadata) {
 
 	var size = { width: 200, height: 200}, 
 		radius = Math.min(size.width, size.height) / 2 ,
-		offset = { x: 600, y: radius + 4 };
+		offset = { x: 700, y: radius + 4 };
 
 	// Select the g.vis element we're going to be adding the donut to 
 	var vis = svg.select('.vis')
@@ -282,4 +280,4 @@ function formatNumber (n) {
 	return (Math.round(n / 100000) / 10) + 'm';
 }
 
-var formatPercent = d3.format('.1p');
+var formatPercent = d3.format('.3p');

@@ -460,6 +460,7 @@ a:hover {
   font-size: 20px;
   margin: 20px 200px;
   line-height: 1.6em;
+  text-align: center;
 }
 
 svg {
