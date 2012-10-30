@@ -1,0 +1,28 @@
+doctype 5
+html
+	head
+		title Glitch Feats Data
+		link(type="text/css", rel="stylesheet", href="http://fonts.googleapis.com/css?family=Lato")
+		link(type="text/css", rel="stylesheet", href="assets/style.css")
+		meta(content="text/html; charset=UTF-8", http-equiv="Content-Type")
+	body
+		div#container 
+			h1 Feats statistics 
+			ul#feats
+				each feat in feats 
+					li(id=feat.id) #{feat.name} 
+						if feat.epic
+							span.epic= feat.epic
+
+			div#data
+				h2
+					a
+				h3 Result 
+				p#feat-desc
+				h3 Legend
+				p#feat-legend
+				div#histogram
+
+		script(src='//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js')
+		script(src='assets/d3.min.js')
+		script(src='assets/page.js')
