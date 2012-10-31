@@ -1,6 +1,6 @@
-var m = {top: 20, right: 80, bottom: 30, left: 10},
+var m = {top: 80, right: 80, bottom: 30, left: 10},
     w = 960 - m.left - m.right,
-    h = 360 - m.top - m.bottom;
+    h = 440 - m.top - m.bottom;
 
 var svg = d3.select('#histogram').append("svg")
 		.attr("width", w + m.left + m.right)
@@ -175,9 +175,10 @@ function renderGraph (data, metadata) {
 function drawDonut (data, metadata) {
 	var cumilative = 0, values = [], leftover = metadata.total;
 
-	var size = { width: 200, height: 200}, 
+	var size = { width: 250, height: 250}, 
 		radius = Math.min(size.width, size.height) / 2 ,
-		offset = { x: 700, y: radius + 4 };
+		offset = { x: 700, y: radius - 70 }, 
+		donutThickness = 60;
 
 	// Select the g.vis element we're going to be adding the donut to 
 	var vis = svg.select('.vis')
@@ -187,7 +188,7 @@ function drawDonut (data, metadata) {
 		
 	var arc = d3.svg.arc()
 		.outerRadius(radius)
-		.innerRadius(radius - 50);
+		.innerRadius(radius - donutThickness);
 
 	// Process data 
 	prizeBuckets.forEach(function(p){
