@@ -18,6 +18,8 @@ request(url, function (error, response, body) {
 
 		collectData($, featName);
 		collectMetadata($, featName);
+
+		process.exit();
 	} else {
 		console.log('HTTP error: ' + error);
 	}
@@ -88,7 +90,8 @@ function collectMetadata ($, featName) {
 		featRewardRaw.forEach(function(t){
 			if (t.match(/[\d]+/)) {
 				if (currentReward) {
-					feat.reward[currentReward] = removeComma(currentCount);
+					feat.reward[cleanReward(currentReward)]
+						 = removeComma(currentCount);
 				}
 
 				currentReward = "";
@@ -98,7 +101,8 @@ function collectMetadata ($, featName) {
 			}
 		});	
 
-		feat.reward[currentReward] = removeComma(currentCount);
+		feat.reward[cleanReward(currentReward)] 
+			= removeComma(currentCount);
 	}
 
 	feat.goals = {
@@ -112,4 +116,11 @@ function collectMetadata ($, featName) {
 
 function removeComma (n) {
 	return parseInt(n.trim().replace(/,/g, ''), 10);
+}
+
+function cleanReward (r) {
+	return r
+		.replace(/,/g, '')
+		.replace(/and/g, '')
+		.trim();
 }
