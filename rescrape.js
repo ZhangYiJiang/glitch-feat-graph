@@ -14,7 +14,7 @@ feats.forEach(function(feat) {
 function runChild (n) {
 	fork (parserPath, [urls[n]])
 	.on('exit', function() {
-		
+
 		if (n + 1 < urls.length) {
 			runChild (n+1);
 		} else {
@@ -24,5 +24,5 @@ function runChild (n) {
 	});
 }
 
-console.log(urls)
-// runChild (0);
+console.log(urls);
+runChild (0);
