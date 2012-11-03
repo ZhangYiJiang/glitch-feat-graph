@@ -13,7 +13,7 @@ html
 			h1 Feats statistics 
 			ul#feats
 				each feat in feats 
-					li(id=feat.id) #{feat.name} 
+					li(data-feat-id=feat.id) #{feat.name} 
 						if feat.epic
 							span.epic= feat.epic
 

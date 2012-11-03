@@ -57,15 +57,16 @@ function renderPage (d) {
 		reachedGoal = 0;
 
 	for (var i in d.goals) {
-		if (d.total > d.goals[i]) {
-			reachedGoal = d.goals[i];
-		}
-
-		$('<li>')
+		var li = $('<li>')
 			.text(splitSpace(d.goals[i]))
 			.addClass(i)
 			.prepend('<span>' + i + '</span>')
 			.appendTo(goalEle);
+
+		if (d.total > d.goals[i]) {
+			reachedGoal = d.goals[i];
+			li.addClass('reached');
+		}
 	}
 
 	for (var i in d.reward) {
@@ -317,11 +318,14 @@ function splitSpace (n) {
 
 var formatPercent = d3.format('.3p');
 
-function init() {
-	$('#feats li').click(function(){
+function init() { 
+	$('#feats li').click (function(){
+		var featId = this.getAttribute('data-feat-id');
+
 		$('#data, #intro').fadeOut();
-		loadData(this.id);
-		window.location.hash = this.id;
+		loadData(featId);
+
+		window.location.hash = featId;
 	});
 
 	if (window.location.hash) {
