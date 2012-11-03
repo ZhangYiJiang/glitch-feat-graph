@@ -50,6 +50,32 @@ function renderPage (d) {
 
 	$('#feat-desc').text(d.desc);
 	$('#feat-legend').text(d.legend);
+
+	// Prepare goals and rewards section
+	var goalEle = $('#goals').empty(), 
+		rewardEle = $('#rewards').empty(),
+		reachedGoal = 0;
+
+	for (var i in d.goals) {
+		if (d.total > d.goals[i]) {
+			reachedGoal = d.goals[i];
+		}
+
+		$('<li>')
+			.text(splitSpace(d.goals[i]))
+			.addClass(i)
+			.prepend('<span>' + i + '</span>')
+			.appendTo(goalEle);
+	}
+
+	for (var i in d.reward) {
+		var rewardPerPlayer = d.reward[i] / reachedGoal;
+
+		$('<li>')
+			.text(splitSpace(d.reward[i]) + ' - ' + rewardPerPlayer + ' per contribution')
+			.prepend('<span>' + i + '</span>')
+			.appendTo(rewardEle);
+	}
 }
 
 
@@ -269,16 +295,38 @@ d3.selection.prototype.translate = function (x, y) {
 	return this.attr("transform", "translate(" + x + "," + y + ")");
 };
 
-
-$('#feats li').click(function(){
-	$('#data, #intro').fadeOut();
-	loadData(this.id);
-});
-
 function formatNumber (n) { 
 	if (n < 1000) return n;
 	if (n < 1000000) return (Math.round(n / 100) / 10) + 'k';
 	return (Math.round(n / 100000) / 10) + 'm';
 }
 
+function splitSpace (n) {
+	if (!n) return;
+
+    n = n.toString();
+	var l = n.length, o = '';
+
+	while (l > 3) {
+		o = ' ' + n.slice(l - 4, l - 1) + o;
+		l -= 3;
+	}
+	
+	return n.slice(0, l) + o;
+}
+
 var formatPercent = d3.format('.3p');
+
+function init() {
+	$('#feats li').click(function(){
+		$('#data, #intro').fadeOut();
+		loadData(this.id);
+		window.location.hash = this.id;
+	});
+
+	if (window.location.hash) {
+		$(window.location.hash).trigger('click');
+	}
+}
+
+init();

@@ -6,7 +6,7 @@ html
 		link(type="image/png", rel="icon", href="/favicon.png")
 		link(type="text/css", rel="stylesheet", href="http://fonts.googleapis.com/css?family=Lato")
 		link(type="text/css", rel="stylesheet", href="assets/style.css")
-		
+
 		meta(content="text/html; charset=UTF-8", http-equiv="Content-Type")
 	body
 		div#container 
@@ -18,12 +18,21 @@ html
 							span.epic= feat.epic
 
 			div#data
-				h2
-					a
-				h3 Result 
-				p#feat-desc
-				h3 Legend
-				p#feat-legend
+				div#feat-text
+					h2
+						a
+					h3 Result 
+					p#feat-desc
+					h3 Legend
+					p#feat-legend
+
+				div#sidebar
+					h3 Goals 
+					ul#goals
+
+					h3 Rewards 
+					ul#rewards
+
 				div#histogram
 
 			p#intro 

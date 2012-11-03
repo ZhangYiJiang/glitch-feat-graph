@@ -397,7 +397,7 @@ h1 {
 }
 
 h3 {
-  margin-bottom: 0.25 em;
+  margin-bottom: 0.25em;
   padding-bottom: 0;
 }
 
@@ -462,6 +462,68 @@ a:hover {
   line-height: 1.6em;
   text-align: center;
 }
+
+#feat-text {
+  width: 500px;
+  float: left;
+}
+
+#sidebar {
+  width: 380px;
+  float: right;
+}
+
+#sidebar h3 {
+  margin-bottom: 0;
+}
+
+#sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px 0;
+  overflow: hidden;
+}
+
+#sidebar  li {
+  margin: 4px 0;
+  font-size: 16px;
+}
+
+#sidebar li span {
+  display: block;
+  color: #999;
+  font-size: 12px;
+}
+
+#goals li {
+  float: left;
+  width: 33%;
+  padding: 20px 0 30px;
+  text-align: center;
+  color: #fff;
+  font-size: 20px;
+}
+
+#goals li span {
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 2px;
+}
+
+#goals li.minimum {
+  background-color: #49A10C;
+}
+
+#goals li.bonus {
+  background-color: #8E0DB4;
+}
+
+#goals li.supermega {
+  background-color: #E5A300;
+}
+
+/**
+*  SVG styles 
+*/
 
 svg {
   font-size: 10px;
