@@ -63,7 +63,7 @@ function renderPage (d) {
 			.prepend('<span>' + i + '</span>')
 			.appendTo(goalEle);
 
-		if (d.total > d.goals[i]) {
+		if (d.total > d.goals[i] && d.goals[i]) {
 			reachedGoal = d.goals[i];
 			li.addClass('reached');
 		}
@@ -329,7 +329,10 @@ function init() {
 	});
 
 	if (window.location.hash) {
-		$(window.location.hash).trigger('click');
+		$('#feats li').filter(function() {
+			return (this.getAttribute('data-feat-id') == 
+				window.location.hash.slice(1));
+		}).trigger('click');
 	}
 }
 

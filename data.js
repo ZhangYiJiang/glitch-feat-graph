@@ -27,14 +27,14 @@ request(url, function (error, response, body) {
 
 function collectData ($, featName) {
 	// The top 26 contributors 
-	var topHero = $('div[id^="contributor"]').remove('a').text().match(/[\d\.]+/g);
+	var topHero = $('div[id^="contributor"]').remove('a').text().match(/[\d\.\,]+/g);
 
 	// The next 975~ contributors
 	var juniorHero = $('ul.top_contributors_list li a')
 			.map(function(){ return $(this).attr('title').split(' ')[0]; });
 
 	var contributor = topHero.concat(juniorHero)
-		.map(function(v){ return +v; });			// Convert everything to numbers 
+		.map(function(v){ return removeComma(v); });			// Convert everything to numbers 
 
 	contributor = contributor
 		.sort(function(a, b) { 
