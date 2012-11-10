@@ -19,7 +19,7 @@ var prizeBuckets = [
 	{
 		'desc': "Medium petrified rocks", 
 		'class': "very-insane", 
-		'n': 179, 
+		'n': 152, 
 		'color': '#D92A7A', 
 		'title': '27th-205th'
 	}, 
